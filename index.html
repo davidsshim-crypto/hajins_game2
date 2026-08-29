@@ -12,7 +12,7 @@
 
   * { box-sizing: border-box; }
   body { margin: 0; font-family: var(--font-sans); background: var(--bg-darker); }
-  .container { padding: 1.5rem; max-width: 1400px; margin: 0 auto; }
+  .container { padding: 1.5rem; max-width: 1000px; margin: 0 auto; }
   
   .header { 
     text-align: center; margin-bottom: 1.5rem;
@@ -35,7 +35,7 @@
   .tab-btn {
     padding: 10px 16px; font-size: 14px; font-weight: 600;
     background: var(--surface-card); color: var(--text-muted);
-    border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius);
     cursor: pointer; transition: all 0.2s;
   }
   
@@ -58,7 +58,7 @@
   .search-btn {
     padding: 12px 20px; font-size: 15px; font-weight: 600;
     background: var(--accent); color: white;
-    border: none; border-radius: 8px;
+    border: none; border-radius: var(--radius);
     cursor: pointer; transition: background 0.2s;
   }
   .search-btn:hover { background: var(--accent-hover); }
@@ -74,7 +74,7 @@
     display: flex; align-items: center; gap: 12px;
     font-size: 14px; color: var(--text-muted);
     background: var(--surface-card); padding: 12px;
-    border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.1);
   }
   
   .filter-box label {
@@ -85,7 +85,7 @@
     padding: 8px 12px; font-size: 14px;
     background: var(--bg-dark); color: var(--text-light);
     border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 8px; cursor: pointer;
+    border-radius: var(--radius); cursor: pointer;
     flex: 1;
   }
   
@@ -96,7 +96,7 @@
   
   .games-grid {
     display: grid; 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 16px; margin-bottom: 2rem;
   }
   
@@ -114,17 +114,17 @@
   }
   
   .game-thumbnail {
-    width: 100%; height: 120px;
+    width: 100%; height: 140px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 48px; position: relative; overflow: hidden;
+    font-size: 24px; position: relative; overflow: hidden;
     background: linear-gradient(135deg, #1e293b, #334155);
   }
   
   .hot-badge {
     position: absolute; top: 8px; left: 8px;
     background: #dc2626; color: white;
-    padding: 4px 10px; border-radius: 20px;
-    font-size: 11px; font-weight: 600;
+    padding: 6px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
     animation: pulse 1.5s infinite;
     z-index: 2;
   }
@@ -137,16 +137,16 @@
   .discount-badge {
     position: absolute; bottom: 8px; right: 8px;
     background: #10b981; color: white;
-    padding: 6px 10px; border-radius: 6px;
-    font-size: 12px; font-weight: 600;
+    padding: 8px 12px; border-radius: var(--radius);
+    font-size: 13px; font-weight: 600;
     z-index: 2;
   }
   
   .wishlist-btn {
     position: absolute; top: 8px; right: 8px;
     background: rgba(0,0,0,0.4); border: none;
-    width: 32px; height: 32px; border-radius: 50%;
-    cursor: pointer; font-size: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    cursor: pointer; font-size: 18px;
     transition: all 0.2s;
     z-index: 3;
     display: flex; align-items: center; justify-content: center;
@@ -166,72 +166,76 @@
   }
   
   .game-title {
-    margin: 0 0 4px; font-size: 14px; font-weight: 600;
+    margin: 0 0 6px; font-size: 15px; font-weight: 600;
     color: var(--text-light); line-height: 1.3;
   }
   
   .game-desc {
     font-size: 12px; color: var(--text-muted);
-    line-height: 1.4; margin-bottom: 6px;
-    min-height: 24px;
+    line-height: 1.4; margin-bottom: 8px;
   }
   
   .game-meta-info {
     font-size: 11px; color: var(--text-muted);
-    background: var(--bg-dark); padding: 4px 6px;
-    border-radius: 6px; margin-bottom: 6px;
+    background: var(--bg-dark); padding: 6px 8px;
+    border-radius: 6px; margin-bottom: 8px;
     border: 1px solid rgba(255,255,255,0.05);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
   }
   
-  .meta-item {
-    padding: 2px;
+  .meta-row {
+    display: flex; justify-content: space-between;
+    padding: 2px 0;
   }
+  
+  .meta-label { color: var(--text-muted); }
+  .meta-value { color: var(--text-light); font-weight: 600; }
   
   .game-genre {
-    font-size: 10px; color: var(--accent);
+    font-size: 11px; color: var(--accent);
     background: rgba(6, 182, 212, 0.15);
-    padding: 2px 5px;
-    border-radius: 3px; display: inline-block; margin-bottom: 6px;
+    padding: 2px 6px;
+    border-radius: 3px; display: inline-block; margin-bottom: 8px;
     border: 1px solid rgba(6, 182, 212, 0.3);
   }
   
   .game-stats {
-    display: flex; justify-content: space-between;
-    gap: 6px; font-size: 11px; margin-bottom: 6px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6px; font-size: 12px; margin-bottom: 8px;
   }
   
   .stat {
-    display: flex; align-items: center; gap: 2px;
+    display: flex; align-items: center; gap: 3px;
   }
   .stat-label { color: var(--text-muted); }
   .stat-value { color: var(--text-light); font-weight: 600; }
   
+  .price-history {
+    font-size: 10px; color: var(--text-muted); margin-bottom: 8px;
+  }
+  
   .price-section {
     border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 6px; display: flex;
+    padding-top: 8px; display: flex;
     justify-content: space-between; align-items: center;
     margin-top: auto;
   }
   
   .prices {
-    display: flex; align-items: baseline; gap: 4px;
+    display: flex; align-items: baseline; gap: 6px;
   }
   
   .price-now {
-    font-size: 14px; font-weight: 700;
+    font-size: 16px; font-weight: 700;
     color: #10b981;
   }
   
   .price-old {
-    font-size: 11px; color: var(--text-muted);
+    font-size: 12px; color: var(--text-muted);
     text-decoration: line-through;
   }
   
   .buy-btn {
-    padding: 6px 10px; font-size: 11px; font-weight: 600;
+    padding: 6px 12px; font-size: 12px; font-weight: 600;
     background: var(--accent); color: white;
     border: none; border-radius: 6px; cursor: pointer;
     transition: background 0.2s;
@@ -250,7 +254,7 @@
   .loadmore-btn {
     padding: 10px 20px; font-size: 14px; font-weight: 600;
     background: var(--surface-card); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px; cursor: pointer;
+    border-radius: var(--radius); cursor: pointer;
     transition: all 0.2s; color: var(--text-light);
   }
   .loadmore-btn:hover:not(:disabled) {
@@ -262,31 +266,44 @@
   }
   
   .empty {
-    text-align: center; padding: 2rem 1rem;
+    text-align: center; padding: 3rem 1rem;
     color: var(--text-muted);
     grid-column: 1 / -1;
   }
   
-  @media (max-width: 1200px) {
-    .games-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .empty-icon { font-size: 60px; margin-bottom: 1rem; }
+  
+  .notification-setup {
+    background: var(--surface-card); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 12px; margin-bottom: 1.5rem;
   }
   
-  @media (max-width: 768px) {
-    .games-grid {
-      grid-template-columns: 1fr;
-    }
-    .filter-row {
-      grid-template-columns: 1fr;
-    }
+  .notif-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; margin-bottom: 8px; color: var(--text-light);
+  }
+  
+  .notif-item:last-child { margin-bottom: 0; }
+  
+  .notif-item input {
+    width: 40px; padding: 4px;
+    background: var(--bg-dark);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--text-light);
+    border-radius: 4px;
+  }
+  
+  .svg-art {
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 </style>
 
 <div class="container">
   <div class="header">
     <h1>🎮 게임 핫딜 찾기</h1>
-    <p>PC에서 한 눈에 12개의 멋진 게임 할인을 비교해보세요!</p>
+    <p>SVG 아트로 표현된 멋진 게임 이미지와 함께 최고의 할인을 찾아보세요!</p>
   </div>
   
   <div class="tabs">
@@ -294,6 +311,20 @@
     <button class="tab-btn" data-tab="trending">🌟 트렌딩</button>
     <button class="tab-btn" data-tab="new">✨ 새 게임</button>
     <button class="tab-btn" data-tab="wishlist">❤️ 찜한 게임</button>
+  </div>
+  
+  <div class="notification-setup">
+    <div style="font-weight: 600; margin-bottom: 8px; color: var(--text-light);">📢 알림 설정</div>
+    <div class="notif-item">
+      <input type="checkbox" id="notif-discount" checked>
+      <label for="notif-discount">할인 알림 (% 이상):</label>
+      <input type="number" id="notif-value" min="10" max="90" value="50" style="width: 50px;">
+    </div>
+    <div class="notif-item">
+      <input type="checkbox" id="notif-price" checked>
+      <label for="notif-price">가격 하락 알림 ($ 이하):</label>
+      <input type="number" id="notif-price-value" min="1" max="100" value="10" style="width: 50px;">
+    </div>
   </div>
   
   <div class="controls">
@@ -334,63 +365,66 @@
 </div>
 
 <script>
-  const gameIcons = {
-    'baldurs_gate_3': '🧙',
-    'elden_ring': '⚔️',
-    'hades': '🔥',
-    'portal_2': '🌀',
-    'stardew_valley': '🌾',
-    'outer_wilds': '🚀',
-    'celeste': '⛰️',
-    'journey': '🏜️',
-    'hollow_knight': '⚫',
-    'factorio': '🏭',
-    'spiritfarer': '🚢',
-    'gris': '🎨',
-    'the_witness': '🧩',
-    'civilization_vi': '👑',
-  };
-
-  const gameGradients = {
-    'baldurs_gate_3': 'linear-gradient(135deg, #5b21b6, #3b2667)',
-    'elden_ring': 'linear-gradient(135deg, #991f1f, #1c1c2e)',
-    'hades': 'linear-gradient(135deg, #f97316, #2d1b2e)',
-    'portal_2': 'linear-gradient(135deg, #06b6d4, #1e40af)',
-    'stardew_valley': 'linear-gradient(135deg, #fbbf24, #b8860b)',
-    'outer_wilds': 'linear-gradient(135deg, #0ea5e9, #1c1636)',
-    'celeste': 'linear-gradient(135deg, #ec4899, #6b21a8)',
-    'journey': 'linear-gradient(135deg, #f59e0b, #92400e)',
-    'hollow_knight': 'linear-gradient(135deg, #6366f1, #1a1a2e)',
-    'factorio': 'linear-gradient(135deg, #dc2626, #7c2d12)',
-    'spiritfarer': 'linear-gradient(135deg, #60a5fa, #1e3a8a)',
-    'gris': 'linear-gradient(135deg, #8b5cf6, #312e81)',
-    'the_witness': 'linear-gradient(135deg, #f59e0b, #daa520)',
-    'civilization_vi': 'linear-gradient(135deg, #fcd34d, #991f1f)',
-  };
-
   const genres = {
     action: '액션', rpg: 'RPG', puzzle: '퍼즐',
     strategy: '전략', adventure: '모험', indie: '인디'
   };
 
+  // SVG 아트를 직접 HTML로 반환하는 함수들
+  function getSVGArt(gameId) {
+    const arts = {
+      baldurs_gate_3: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3b2667"/><stop offset="100%" stop-color="#1a0f2e"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg1)"/><g opacity="0.8"><polygon points="70,20 90,60 70,70 50,60" fill="#a78bfa"/></g><rect x="50" y="80" width="40" height="50" fill="#6b21a8" opacity="0.7"/><path d="M 50 85 Q 70 75 90 85" stroke="#a78bfa" stroke-width="2" fill="none" opacity="0.6"/><circle cx="65" cy="95" r="3" fill="#fbbf24"/><circle cx="75" cy="95" r="3" fill="#fbbf24"/></svg>`,
+      
+      elden_ring: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1c1c2e"/><stop offset="100%" stop-color="#0a0a14"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg2)"/><polygon points="70,15 85,40 75,50 70,55 65,50 55,40" fill="#dc2626" opacity="0.9"/><path d="M 70 55 L 70 120" stroke="#ea580c" stroke-width="3" opacity="0.7"/><g opacity="0.6"><circle cx="55" cy="110" r="8" fill="#dc2626"/><circle cx="70" cy="125" r="6" fill="#dc2626"/><circle cx="85" cy="110" r="8" fill="#dc2626"/></g></svg>`,
+      
+      hades: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2d1b2e"/><stop offset="100%" stop-color="#0f050f"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg3)"/><g opacity="0.8"><path d="M 70 30 Q 60 50 70 65 Q 80 50 70 30" fill="#f97316"/><path d="M 65 45 Q 58 55 65 70 Q 72 55 65 45" fill="#fbbf24" opacity="0.8"/><path d="M 75 45 Q 82 55 75 70 Q 68 55 75 45" fill="#fbbf24" opacity="0.8"/></g><circle cx="70" cy="100" r="20" fill="none" stroke="#9333ea" stroke-width="1.5" opacity="0.6"/><line x1="50" y1="100" x2="90" y2="100" stroke="#9333ea" stroke-width="1" opacity="0.5"/></svg>`,
+      
+      portal_2: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e40af"/><stop offset="100%" stop-color="#0c2340"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg4)"/><circle cx="50" cy="50" r="12" fill="none" stroke="#06b6d4" stroke-width="2.5" opacity="0.9"/><circle cx="50" cy="50" r="7" fill="#06b6d4" opacity="0.6"/><circle cx="90" cy="90" r="12" fill="none" stroke="#f97316" stroke-width="2.5" opacity="0.9"/><circle cx="90" cy="90" r="7" fill="#f97316" opacity="0.6"/><path d="M 62 55 L 78 85" stroke="#a3e635" stroke-width="1.5" opacity="0.7"/></svg>`,
+      
+      stardew_valley: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b8860b"/><stop offset="100%" stop-color="#6b4c1f"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg5)"/><circle cx="70" cy="35" r="18" fill="#fbbf24" opacity="0.9"/><g opacity="0.8"><rect x="40" y="65" width="15" height="35" fill="#22c55e"/><rect x="70" y="70" width="15" height="30" fill="#16a34a"/><rect x="95" y="65" width="15" height="35" fill="#22c55e"/><circle cx="47" cy="60" r="3" fill="#fef3c7"/><circle cx="77" cy="62" r="3" fill="#fef3c7"/><circle cx="102" cy="60" r="3" fill="#fef3c7"/></g></svg>`,
+      
+      outer_wilds: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1c1636"/><stop offset="100%" stop-color="#0a0514"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg6)"/><circle cx="70" cy="60" r="20" fill="none" stroke="#06b6d4" stroke-width="1.5" opacity="0.8"/><circle cx="70" cy="60" r="10" fill="#06b6d4" opacity="0.5"/><g opacity="0.6"><circle cx="50" cy="40" r="4" fill="#fbbf24"/><circle cx="100" cy="45" r="3" fill="#fbbf24"/><circle cx="45" cy="90" r="3.5" fill="#fbbf24"/><circle cx="110" cy="100" r="2.5" fill="#fbbf24"/></g><path d="M 70 80 L 70 120" stroke="#0ea5e9" stroke-width="1" opacity="0.4"/></svg>`,
+      
+      celeste: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg7" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6b21a8"/><stop offset="100%" stop-color="#2d1b4e"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg7)"/><polygon points="70,15 110,100 30,100" fill="#ec4899" opacity="0.8"/><polygon points="70,30 95,95 45,95" fill="#a78bfa" opacity="0.6"/><circle cx="70" cy="50" r="5" fill="#fef3c7"/></svg>`,
+      
+      journey: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg8" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d97706"/><stop offset="100%" stop-color="#92400e"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg8)"/><ellipse cx="70" cy="100" rx="35" ry="15" fill="#b45309" opacity="0.6"/><polygon points="60,90 70,70 80,90" fill="#fef3c7" opacity="0.8"/><g opacity="0.5"><path d="M 50 105 Q 70 85 90 105" stroke="#fbbf24" stroke-width="1.5" fill="none"/></g></svg>`,
+      
+      hollow_knight: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg9" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a1a2e"/><stop offset="100%" stop-color="#0a0a14"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg9)"/><polygon points="70,20 85,45 75,55 70,60 65,55 55,45" fill="#6366f1" opacity="0.8"/><ellipse cx="70" cy="80" rx="15" ry="20" fill="#6366f1" opacity="0.7"/><rect x="65" y="105" width="10" height="25" fill="#6366f1" opacity="0.7"/><circle cx="70" cy="50" r="2" fill="#fbbf24"/></svg>`,
+      
+      factorio: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg10" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c2d12"/><stop offset="100%" stop-color="#431407"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg10)"/><g opacity="0.8"><rect x="30" y="30" width="20" height="20" fill="#dc2626"/><rect x="60" y="30" width="20" height="20" fill="#ea580c"/><rect x="90" y="30" width="20" height="20" fill="#f97316"/><rect x="30" y="65" width="20" height="20" fill="#ea580c"/><rect x="60" y="65" width="20" height="20" fill="#dc2626"/><rect x="90" y="65" width="20" height="20" fill="#ea580c"/><rect x="30" y="100" width="20" height="20" fill="#f97316"/><rect x="60" y="100" width="20" height="20" fill="#ea580c"/><rect x="90" y="100" width="20" height="20" fill="#dc2626"/></g><line x1="40" y1="50" x2="80" y2="50" stroke="#fbbf24" stroke-width="1" opacity="0.5"/><line x1="70" y1="20" x2="70" y2="120" stroke="#fbbf24" stroke-width="1" opacity="0.5"/></svg>`,
+      
+      spiritfarer: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg11" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e3a8a"/><stop offset="100%" stop-color="#0c1844"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg11)"/><polygon points="70,25 95,70 45,70" fill="#60a5fa" opacity="0.8"/><ellipse cx="70" cy="90" rx="25" ry="15" fill="#0ea5e9" opacity="0.6"/><path d="M 50 80 Q 60 60 70 50" stroke="#7dd3fc" stroke-width="2" fill="none" opacity="0.5"/><path d="M 90 80 Q 80 60 70 50" stroke="#7dd3fc" stroke-width="2" fill="none" opacity="0.5"/></svg>`,
+      
+      gris: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg12" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#312e81"/><stop offset="50%" stop-color="#5b21b6"/><stop offset="100%" stop-color="#1e40af"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg12)"/><circle cx="35" cy="35" r="15" fill="#a78bfa" opacity="0.7"/><circle cx="105" cy="60" r="18" fill="#60a5fa" opacity="0.7"/><circle cx="60" cy="105" r="16" fill="#8b5cf6" opacity="0.7"/><path d="M 30 70 Q 70 65 110 80" stroke="#a78bfa" stroke-width="2" fill="none" opacity="0.4"/></svg>`,
+      
+      the_witness: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg13" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#daa520"/><stop offset="100%" stop-color="#8b6914"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg13)"/><g opacity="0.8"><line x1="30" y1="30" x2="110" y2="30" stroke="#f59e0b" stroke-width="1.5"/><line x1="30" y1="50" x2="110" y2="50" stroke="#f59e0b" stroke-width="1.5"/><line x1="30" y1="70" x2="110" y2="70" stroke="#f59e0b" stroke-width="1.5"/><line x1="30" y1="90" x2="110" y2="90" stroke="#f59e0b" stroke-width="1.5"/><line x1="30" y1="110" x2="110" y2="110" stroke="#f59e0b" stroke-width="1.5"/><line x1="30" y1="30" x2="30" y2="110" stroke="#f59e0b" stroke-width="1.5"/><line x1="50" y1="30" x2="50" y2="110" stroke="#f59e0b" stroke-width="1.5"/><line x1="70" y1="30" x2="70" y2="110" stroke="#f59e0b" stroke-width="1.5"/><line x1="90" y1="30" x2="90" y2="110" stroke="#f59e0b" stroke-width="1.5"/><line x1="110" y1="30" x2="110" y2="110" stroke="#f59e0b" stroke-width="1.5"/></g><circle cx="50" cy="70" r="4" fill="#fbbf24"/><path d="M 50 70 L 85 50" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"/></svg>`,
+      
+      civilization_vi: () => `<svg viewBox="0 0 140 140" class="svg-art"><defs><linearGradient id="bg14" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#991f1f"/><stop offset="100%" stop-color="#4c0519"/></linearGradient></defs><rect width="140" height="140" fill="url(#bg14)"/><polygon points="70,20 85,35 70,50 55,35" fill="#fcd34d" opacity="0.9"/><rect x="50" y="60" width="40" height="35" fill="#dc2626" opacity="0.7"/><polygon points="70,95 80,110 60,110" fill="#fcd34d" opacity="0.8"/><g opacity="0.5"><circle cx="40" cy="80" r="3" fill="#fbbf24"/><circle cx="100" cy="85" r="3" fill="#fbbf24"/></g></svg>`,
+    };
+    
+    return arts[gameId]?.() || arts.baldurs_gate_3();
+  }
+
   const topGames = [
-    { id: 'baldurs_gate_3', title: 'Baldur\'s Gate 3', genre: 'rpg', original: 59.99, price: 35.99, discount: 40, rating: 4.9, reviews: 18000, popularity: 98, desc: '무한한 가능성의 판타지 RPG', playTime: '100+시간', dev: 'Larian', features: 'RPG, 멀티', url: 'https://store.steampowered.com/app/1238140/', isNew: true, prevPrice: 49.99 },
-    { id: 'elden_ring', title: 'Elden Ring', genre: 'action', original: 59.99, price: 29.99, discount: 50, rating: 4.8, reviews: 15000, popularity: 96, desc: '광활한 세계의 도전적 액션', playTime: '60-100시간', dev: 'FromSoftware', features: '액션, 멀티', url: 'https://store.steampowered.com/app/570940/', isNew: false, prevPrice: 39.99 },
-    { id: 'hades', title: 'Hades', genre: 'action', original: 24.99, price: 7.49, discount: 70, rating: 4.9, reviews: 14000, popularity: 94, desc: '지옥에서 탈출하는 로그라이크', playTime: '30-50시간', dev: 'Supergiant', features: '로그라이크, 액션', url: 'https://store.steampowered.com/app/1145360/', isNew: false, prevPrice: 12.49 },
-    { id: 'portal_2', title: 'Portal 2', genre: 'puzzle', original: 19.99, price: 4.99, discount: 75, rating: 4.9, reviews: 12000, popularity: 92, desc: '포탈 퍼즐의 고전', playTime: '8-10시간', dev: 'Valve', features: '퍼즐, 스토리', url: 'https://store.steampowered.com/app/620/', isNew: false, prevPrice: 6.99 },
-    { id: 'stardew_valley', title: 'Stardew Valley', genre: 'adventure', original: 14.99, price: 7.49, discount: 50, rating: 4.9, reviews: 8543, popularity: 95, desc: '소박한 농장 경영 시뮬레이션', playTime: '50-100시간', dev: 'ConcernedApe', features: '시뮬레이션, 로맨스', url: 'https://store.steampowered.com/app/413150/', isNew: false, prevPrice: 9.99 },
-    { id: 'outer_wilds', title: 'Outer Wilds', genre: 'adventure', original: 24.99, price: 7.49, discount: 70, rating: 4.9, reviews: 8432, popularity: 90, desc: '우주 탐험의 신비한 퍼즐', playTime: '20-30시간', dev: 'Mobius Digital', features: '탐험, 과학', url: 'https://store.steampowered.com/app/753640/', isNew: true, prevPrice: 11.99 },
-    { id: 'celeste', title: 'Celeste', genre: 'action', original: 19.99, price: 5.99, discount: 70, rating: 4.9, reviews: 9876, popularity: 91, desc: '산을 오르는 도전적 플랫포머', playTime: '8-15시간', dev: 'Maddy Makes', features: '플랫포머, 도전', url: 'https://store.steampowered.com/app/504230/', isNew: false, prevPrice: 8.99 },
-    { id: 'journey', title: 'Journey', genre: 'adventure', original: 11.99, price: 5.99, discount: 50, rating: 4.9, reviews: 11234, popularity: 89, desc: '모래 언덕의 감정적 모험', playTime: '2-3시간', dev: 'thatgamecompany', features: '모험, 예술', url: 'https://store.steampowered.com/app/638230/', isNew: false, prevPrice: 7.99 },
-    { id: 'hollow_knight', title: 'Hollow Knight', genre: 'action', original: 14.99, price: 7.49, discount: 50, rating: 4.8, reviews: 6521, popularity: 88, desc: '깊은 세계의 메트로배니아', playTime: '20-40시간', dev: 'Team Cherry', features: '탐험, 도전', url: 'https://store.steampowered.com/app/367520/', isNew: false, prevPrice: 8.99 },
-    { id: 'factorio', title: 'Factorio', genre: 'strategy', original: 29.99, price: 14.99, discount: 50, rating: 4.8, reviews: 5432, popularity: 85, desc: '공장 건설의 중독성 강한 전략', playTime: '100시간+', dev: 'Wube Software', features: '건설, 자동화', url: 'https://store.steampowered.com/app/427520/', isNew: false, prevPrice: 19.99 },
-    { id: 'spiritfarer', title: 'Spiritfarer', genre: 'adventure', original: 16.99, price: 5.09, discount: 70, rating: 4.8, reviews: 7234, popularity: 86, desc: '영혼을 돕는 따뜻한 모험', playTime: '10-15시간', dev: 'Thunder Lotus', features: '모험, 관리', url: 'https://store.steampowered.com/app/972660/', isNew: false, prevPrice: 8.49 },
-    { id: 'gris', title: 'Gris', genre: 'indie', original: 14.99, price: 4.49, discount: 70, rating: 4.8, reviews: 6234, popularity: 83, desc: '아름다운 색감의 예술 게임', playTime: '3-4시간', dev: 'Nomada Studio', features: '미술, 감정', url: 'https://store.steampowered.com/app/683320/', isNew: false, prevPrice: 7.49 },
-    { id: 'the_witness', title: 'The Witness', genre: 'puzzle', original: 39.99, price: 9.99, discount: 75, rating: 4.7, reviews: 4200, popularity: 78, desc: '신비한 섬의 깊이있는 퍼즐', playTime: '40-80시간', dev: 'Jonathan Blow', features: '퍼즐, 탐험', url: 'https://store.steampowered.com/app/257200/', isNew: false, prevPrice: 14.99 },
+    { id: 'baldurs_gate_3', title: 'Baldur\'s Gate 3', genre: 'rpg', original: 59.99, price: 35.99, discount: 40, rating: 4.9, reviews: 18000, popularity: 98, desc: '무한한 가능성의 판타지 RPG로 당신의 선택이 세계를 바꿉니다', playTime: '100+시간', dev: 'Larian Studios', features: 'RPG, 전술, 멀티 엔딩', url: 'https://store.steampowered.com/app/1238140/', isNew: true, prevPrice: 49.99 },
+    { id: 'elden_ring', title: 'Elden Ring', genre: 'action', original: 59.99, price: 29.99, discount: 50, rating: 4.8, reviews: 15000, popularity: 96, desc: '광활한 세계에서 엄청난 도전을 만나는 액션 RPG', playTime: '60-100시간', dev: 'FromSoftware', features: '액션, 도전, 멀티플레이', url: 'https://store.steampowered.com/app/570940/', isNew: false, prevPrice: 39.99 },
+    { id: 'hades', title: 'Hades', genre: 'action', original: 24.99, price: 7.49, discount: 70, rating: 4.9, reviews: 14000, popularity: 94, desc: '지옥에서 탈출하는 도전적인 로그라이크 게임', playTime: '30-50시간', dev: 'Supergiant Games', features: '로그라이크, 액션, 스토리', url: 'https://store.steampowered.com/app/1145360/', isNew: false, prevPrice: 12.49 },
+    { id: 'portal_2', title: 'Portal 2', genre: 'puzzle', original: 19.99, price: 4.99, discount: 75, rating: 4.9, reviews: 12000, popularity: 92, desc: '포탈 총으로 신기한 물리 퍼즐을 풀며 웃음을 터뜨리세요', playTime: '8-10시간', dev: 'Valve', features: '퍼즐, 스토리, 코옵', url: 'https://store.steampowered.com/app/620/', isNew: false, prevPrice: 6.99 },
+    { id: 'stardew_valley', title: 'Stardew Valley', genre: 'adventure', original: 14.99, price: 7.49, discount: 50, rating: 4.9, reviews: 8543, popularity: 95, desc: '소박한 마을에서 농장을 경영하며 새로운 삶을 시작하세요', playTime: '50-100시간', dev: 'ConcernedApe', features: '시뮬레이션, 로맨스, 싱글플레이', url: 'https://store.steampowered.com/app/413150/', isNew: false, prevPrice: 9.99 },
+    { id: 'outer_wilds', title: 'Outer Wilds', genre: 'adventure', original: 24.99, price: 7.49, discount: 70, rating: 4.9, reviews: 8432, popularity: 90, desc: '우주를 탐험하며 신비한 퍼즐을 풀고 우주의 비밀을 발견하세요', playTime: '20-30시간', dev: 'Mobius Digital', features: '탐험, 과학, 신비한 이야기', url: 'https://store.steampowered.com/app/753640/', isNew: true, prevPrice: 11.99 },
+    { id: 'celeste', title: 'Celeste', genre: 'action', original: 19.99, price: 5.99, discount: 70, rating: 4.9, reviews: 9876, popularity: 91, desc: '어려운 산을 오르며 개인적 성장과 극복을 경험하는 감동적인 플랫포머', playTime: '8-15시간', dev: 'Maddy Makes Games', features: '플랫포머, 도전, 감정적 스토리', url: 'https://store.steampowered.com/app/504230/', isNew: false, prevPrice: 8.99 },
+    { id: 'journey', title: 'Journey', genre: 'adventure', original: 11.99, price: 5.99, discount: 50, rating: 4.9, reviews: 11234, popularity: 89, desc: '아름다운 모래 언덕을 거닐며 감정적인 모험을 떠나는 예술적 게임', playTime: '2-3시간', dev: 'thatgamecompany', features: '모험, 예술, 멀티플레이 협력', url: 'https://store.steampowered.com/app/638230/', isNew: false, prevPrice: 7.99 },
+    { id: 'hollow_knight', title: 'Hollow Knight', genre: 'action', original: 14.99, price: 7.49, discount: 50, rating: 4.8, reviews: 6521, popularity: 88, desc: '깊은 세계관의 도전적인 메트로배니아 게임으로 진정한 실력을 시험해보세요', playTime: '20-40시간', dev: 'Team Cherry', features: '탐험, 도전, 보스전', url: 'https://store.steampowered.com/app/367520/', isNew: false, prevPrice: 8.99 },
+    { id: 'factorio', title: 'Factorio', genre: 'strategy', original: 29.99, price: 14.99, discount: 50, rating: 4.8, reviews: 5432, popularity: 85, desc: '복잡한 공장을 설계하고 최적화하며 생산 효율을 높이는 중독성 강한 전략 게임', playTime: '100시간+', dev: 'Wube Software', features: '건설, 자동화, 무한 플레이', url: 'https://store.steampowered.com/app/427520/', isNew: false, prevPrice: 19.99 },
+    { id: 'spiritfarer', title: 'Spiritfarer', genre: 'adventure', original: 16.99, price: 5.09, discount: 70, rating: 4.8, reviews: 7234, popularity: 86, desc: '영혼들을 도와주는 따뜻하고 감동적인 이야기의 모험', playTime: '10-15시간', dev: 'Thunder Lotus Games', features: '모험, 관리, 감정적 이야기', url: 'https://store.steampowered.com/app/972660/', isNew: false, prevPrice: 8.49 },
+    { id: 'gris', title: 'Gris', genre: 'indie', original: 14.99, price: 4.49, discount: 70, rating: 4.8, reviews: 6234, popularity: 83, desc: '아름다운 색감으로 표현된 감정의 여정을 따라가는 시각예술 게임', playTime: '3-4시간', dev: 'Nomada Studio', features: '미술, 감정 표현, 이야기', url: 'https://store.steampowered.com/app/683320/', isNew: false, prevPrice: 7.49 },
+    { id: 'the_witness', title: 'The Witness', genre: 'puzzle', original: 39.99, price: 9.99, discount: 75, rating: 4.7, reviews: 4200, popularity: 78, desc: '신비한 섬에서 깊이 있는 퍼즐을 풀며 세계의 비밀을 밝혀내세요', playTime: '40-80시간', dev: 'Jonathan Blow', features: '퍼즐, 탐험, 철학적', url: 'https://store.steampowered.com/app/257200/', isNew: false, prevPrice: 14.99 },
+    { id: 'civilization_vi', title: 'Civilization VI', genre: 'strategy', original: 59.99, price: 14.99, discount: 75, rating: 4.6, reviews: 7654, popularity: 82, desc: '제국을 건설하고 세계 역사를 만들어보는 거대한 전략 시뮬레이션 게임', playTime: '50시간+', dev: 'Firaxis Games', features: '턴제전략, 역사, 멀티플레이', url: 'https://store.steampowered.com/app/289070/', isNew: false, prevPrice: 19.99 },
   ];
 
   const allGames = [...topGames];
 
+  // 더미 게임 추가
   for (let i = 0; i < 75; i++) {
     const base = allGames[i % allGames.length];
     const genreList = Object.keys(genres);
@@ -415,26 +449,25 @@
 
   function renderGames() {
     const grid = document.getElementById('gamesGrid');
-    const start = currentPage * 12;
-    const end = start + 12;
+    const start = currentPage * 10;
+    const end = start + 10;
     const games = displayedGames.slice(start, end);
 
     if (games.length === 0) {
-      grid.innerHTML = '<div class="empty"><div style="font-size: 40px; margin-bottom: 10px;">🎮</div>게임을 검색해주세요!</div>';
+      grid.innerHTML = '<div class="empty"><div class="empty-icon">🎮</div>게임을 검색해주세요!</div>';
       return;
     }
 
     grid.innerHTML = games.map((g) => {
       const isHotDeal = g.discount >= 70;
       const isWishlisted = wishlist.includes(g.title);
+      const priceDrop = g.prevPrice - g.price;
       const wishlistIcon = isWishlisted ? '❤️' : '🤍';
-      const bgGradient = gameGradients[g.id] || 'linear-gradient(135deg, #1e293b, #334155)';
-      const icon = gameIcons[g.id] || '🎮';
       
       return `
         <div class="game-card">
-          <div class="game-thumbnail" style="background: ${bgGradient}">
-            <div style="font-size: 48px;">${icon}</div>
+          <div class="game-thumbnail">
+            ${getSVGArt(g.id)}
             ${isHotDeal ? '<div class="hot-badge">🔥 HOT</div>' : ''}
             <button class="wishlist-btn" title="${isWishlisted ? '찜 해제' : '찜하기'}"
               onclick="toggleWishlist('${g.title}', event)">${wishlistIcon}</button>
@@ -446,14 +479,26 @@
             <div class="game-desc">${g.desc}</div>
             
             <div class="game-meta-info">
-              <div class="meta-item"><span style="color: var(--text-muted);">⏱️</span> ${g.playTime}</div>
-              <div class="meta-item"><span style="color: var(--text-muted);">👤</span> ${g.dev}</div>
+              <div class="meta-row">
+                <span class="meta-label">⏱️ 플레이타임:</span>
+                <span class="meta-value">${g.playTime}</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">👤 개발사:</span>
+                <span class="meta-value">${g.dev}</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">✨ 특징:</span>
+                <span class="meta-value">${g.features}</span>
+              </div>
             </div>
             
             <div class="game-stats">
               <div class="stat"><span class="stat-label">⭐</span><span class="stat-value">${g.rating.toFixed(1)}</span></div>
               <div class="stat"><span class="stat-label">👥</span><span class="stat-value">${(g.reviews / 1000).toFixed(1)}k</span></div>
             </div>
+            
+            ${priceDrop > 0.5 ? `<div class="price-history">📉 지난주: $${g.prevPrice.toFixed(2)}</div>` : ''}
             
             <div class="price-section">
               <div class="prices">
@@ -472,7 +517,7 @@
 
   function updatePagination() {
     const total = displayedGames.length;
-    const pages = Math.ceil(total / 12);
+    const pages = Math.ceil(total / 10);
     const pag = document.getElementById('pagination');
 
     pag.innerHTML = `
@@ -480,14 +525,14 @@
       <button class="loadmore-btn" 
         onclick="loadMore()"
         ${currentPage >= pages - 1 ? 'disabled' : ''}>
-        ${currentPage >= pages - 1 ? '마지막 페이지입니다' : '더보기 (다음 12개)'}
+        ${currentPage >= pages - 1 ? '마지막 페이지입니다' : '더보기 (다음 10개)'}
       </button>
     `;
   }
 
   function loadMore() {
     const total = displayedGames.length;
-    if ((currentPage + 1) * 12 < total) {
+    if ((currentPage + 1) * 10 < total) {
       currentPage++;
       renderGames();
       window.scrollTo({ top: 0, behavior: 'smooth' });
