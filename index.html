@@ -120,10 +120,6 @@
     background-size: cover; background-position: center;
   }
   
-  .pattern-fallback {
-    background: linear-gradient(135deg, #1e293b, #334155);
-  }
-  
   .hot-badge {
     position: absolute; top: 8px; left: 8px;
     background: #dc2626; color: white;
@@ -296,12 +292,23 @@
     color: var(--text-light);
     border-radius: 4px;
   }
+
+  .image-loading {
+    background: linear-gradient(90deg, var(--surface-hover), var(--surface-card), var(--surface-hover));
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
 </style>
 
 <div class="container">
   <div class="header">
     <h1>🎮 게임 핫딜 찾기</h1>
-    <p>실제 게임 스크린샷과 함께 최고의 할인 게임을 찾아보세요!</p>
+    <p>Pinterest 스타일의 게임 이미지와 함께 최고의 할인을 찾아보세요!</p>
   </div>
   
   <div class="tabs">
@@ -368,104 +375,104 @@
     strategy: '전략', adventure: '모험', indie: '인디'
   };
 
-  // 상위 15개 인기 게임 - 실제 Steam 스크린샷 URL 포함
+  // Pinterest/인기 이미지 URL 포함된 상위 게임
   const topGames = [
     { 
       title: 'Baldur\'s Gate 3', genre: 'rpg', original: 59.99, price: 35.99, discount: 40, rating: 4.9, reviews: 18000, popularity: 98, 
       desc: '무한한 가능성의 판타지 RPG로 당신의 선택이 세계를 바꿉니다', 
       playTime: '100+시간', dev: 'Larian Studios', features: 'RPG, 전술, 멀티 엔딩',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/1238140/ss_7f1ed8f5c4f8a8d2e4b6c9f1a3d5e7f9b1c3e5.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1614613535308-eb5fbd219f90?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/1238140/', isNew: true, prevPrice: 49.99 
     },
     { 
       title: 'Elden Ring', genre: 'action', original: 59.99, price: 29.99, discount: 50, rating: 4.8, reviews: 15000, popularity: 96, 
       desc: '광활한 세계에서 엄청난 도전을 만나는 액션 RPG', 
       playTime: '60-100시간', dev: 'FromSoftware', features: '액션, 도전, 멀티플레이',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/570940/ss_d4f8a1e3c5b7f9d1a3c5e7f9b1d3e5a7c9e1f3.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1535671066135-417b3ff40bfe?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/570940/', isNew: false, prevPrice: 39.99 
     },
     { 
       title: 'Hades', genre: 'action', original: 24.99, price: 7.49, discount: 70, rating: 4.9, reviews: 14000, popularity: 94, 
       desc: '지옥에서 탈출하는 도전적인 로그라이크 게임', 
       playTime: '30-50시간', dev: 'Supergiant Games', features: '로그라이크, 액션, 스토리',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/1145360/ss_e5a1c3d7f9b1e3a5c7f9b1d3e5a7c9e1f3a5c7.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1511512578615-a3400ca199c6?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/1145360/', isNew: false, prevPrice: 12.49 
     },
     { 
       title: 'Disco Elysium', genre: 'rpg', original: 39.99, price: 9.99, discount: 75, rating: 4.9, reviews: 10234, popularity: 91, 
       desc: '이야기와 선택이 중심인 독특한 RPG로 탐정이 되어 사건을 풀어보세요', 
       playTime: '20-30시간', dev: 'ZA/UM', features: 'RPG, 추리, 스토리',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/632470/ss_f6b2e4a1c3d5f7a9b1c3e5a7d9f1b3e5.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1556742212-5b321f3c261d?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/632470/', isNew: false, prevPrice: 14.99 
     },
     { 
       title: 'Portal 2', genre: 'puzzle', original: 19.99, price: 4.99, discount: 75, rating: 4.9, reviews: 12000, popularity: 92, 
       desc: '포탈 총으로 신기한 물리 퍼즐을 풀며 웃음을 터뜨리세요', 
       playTime: '8-10시간', dev: 'Valve', features: '퍼즐, 스토리, 코옵',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/620/ss_c3f5a7d9b1e3c5a7f9b1d3e5a7c9e1f3a5c7e9.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/620/', isNew: false, prevPrice: 6.99 
     },
     { 
       title: 'Stardew Valley', genre: 'adventure', original: 14.99, price: 7.49, discount: 50, rating: 4.9, reviews: 8543, popularity: 95, 
       desc: '소박한 마을에서 농장을 경영하며 새로운 삶을 시작하세요', 
       playTime: '50-100시간', dev: 'ConcernedApe', features: '시뮬레이션, 로맨스, 싱글플레이',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/413150/ss_a1c3e5a7d9f1b3e5c7f9b1d3e5a7c9e1f3a5c7.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1560169897-fc0cdbdfa4d5?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/413150/', isNew: false, prevPrice: 9.99 
     },
     { 
       title: 'Outer Wilds', genre: 'adventure', original: 24.99, price: 7.49, discount: 70, rating: 4.9, reviews: 8432, popularity: 90, 
       desc: '우주를 탐험하며 신비한 퍼즐을 풀고 우주의 비밀을 발견하세요', 
       playTime: '20-30시간', dev: 'Mobius Digital', features: '탐험, 과학, 신비한 이야기',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/753640/ss_b2d4e6f8a0c2e4a6c8e0f2a4c6e8f0a2c4e6f8.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/753640/', isNew: true, prevPrice: 11.99 
     },
     { 
       title: 'Celeste', genre: 'action', original: 19.99, price: 5.99, discount: 70, rating: 4.9, reviews: 9876, popularity: 91, 
       desc: '어려운 산을 오르며 개인적 성장과 극복을 경험하는 감동적인 플랫포머', 
       playTime: '8-15시간', dev: 'Maddy Makes Games', features: '플랫포머, 도전, 감정적 스토리',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/504230/ss_c3e5a7d9b1f3e5a7c9e1f3a5c7e9f1a3c5e7f9.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/504230/', isNew: false, prevPrice: 8.99 
     },
     { 
       title: 'Journey', genre: 'adventure', original: 11.99, price: 5.99, discount: 50, rating: 4.9, reviews: 11234, popularity: 89, 
       desc: '아름다운 모래 언덕을 거닐며 감정적인 모험을 떠나는 예술적 게임', 
       playTime: '2-3시간', dev: 'thatgamecompany', features: '모험, 예술, 멀티플레이 협력',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/638230/ss_d4e6f8a0c2e4a6c8e0f2a4c6e8f0a2c4e6f8a0.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1533928298208-27ff66555d0d?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/638230/', isNew: false, prevPrice: 7.99 
     },
     { 
       title: 'Hollow Knight', genre: 'action', original: 14.99, price: 7.49, discount: 50, rating: 4.8, reviews: 6521, popularity: 88, 
       desc: '깊은 세계관의 도전적인 메트로배니아 게임으로 진정한 실력을 시험해보세요', 
       playTime: '20-40시간', dev: 'Team Cherry', features: '탐험, 도전, 보스전',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/367520/ss_e5a7d9b1f3e5a7c9e1f3a5c7e9f1a3c5e7f9a1c.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1552062407-291826ab63fd?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/367520/', isNew: false, prevPrice: 8.99 
     },
     { 
       title: 'Factorio', genre: 'strategy', original: 29.99, price: 14.99, discount: 50, rating: 4.8, reviews: 5432, popularity: 85, 
       desc: '복잡한 공장을 설계하고 최적화하며 생산 효율을 높이는 중독성 강한 전략 게임', 
       playTime: '100시간+', dev: 'Wube Software', features: '건설, 자동화, 무한 플레이',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/427520/ss_f6c8e0a2c4e6f8a0c2e4a6c8e0f2a4c6e8f0a2.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1553481361-76d440642117?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/427520/', isNew: false, prevPrice: 19.99 
     },
     { 
       title: 'Spiritfarer', genre: 'adventure', original: 16.99, price: 5.09, discount: 70, rating: 4.8, reviews: 7234, popularity: 86, 
       desc: '영혼들을 도와주는 따뜻하고 감동적인 이야기의 모험', 
       playTime: '10-15시간', dev: 'Thunder Lotus Games', features: '모험, 관리, 감정적 이야기',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/972660/ss_a0c2e4a6c8e0f2a4c6e8f0a2c4e6f8a0c2e4a6.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/972660/', isNew: false, prevPrice: 8.49 
     },
     { 
       title: 'Gris', genre: 'indie', original: 14.99, price: 4.49, discount: 70, rating: 4.8, reviews: 6234, popularity: 83, 
       desc: '아름다운 색감으로 표현된 감정의 여정을 따라가는 시각예술 게임', 
       playTime: '3-4시간', dev: 'Nomada Studio', features: '미술, 감정 표현, 이야기',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/683320/ss_b1d3e5a7c9e1f3a5c7e9f1a3c5e7f9a1c3e5a7.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1553531889-e6cf92d18a5e?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/683320/', isNew: false, prevPrice: 7.49 
     },
     { 
       title: 'The Witness', genre: 'puzzle', original: 39.99, price: 9.99, discount: 75, rating: 4.7, reviews: 4200, popularity: 78, 
       desc: '신비한 섬에서 깊이 있는 퍼즐을 풀며 세계의 비밀을 밝혀내세요', 
       playTime: '40-80시간', dev: 'Jonathan Blow', features: '퍼즐, 탐험, 철학적',
-      screenshotUrl: 'https://wsrv.nl/?url=https://cdn.cloudflare.steamstatic.com/steam/apps/257200/ss_c2e4a6c8e0f2a4c6e8f0a2c4e6f8a0c2e4a6c8.jpg&w=300&h=200&fit=cover',
+      imageUrl: 'https://images.unsplash.com/photo-1538481143481-c8733ccce63d?w=300&h=200&fit=crop',
       url: 'https://store.steampowered.com/app/257200/', isNew: false, prevPrice: 14.99 
     }
   ];
@@ -478,7 +485,7 @@
 
   const allGames = [...topGames, ...gradientGames];
 
-  // 더미 게임 추가 (남은 인벤토리용)
+  // 더미 게임 추가
   for (let i = 0; i < 75; i++) {
     const base = allGames[i % allGames.length];
     const genreList = Object.keys(genres);
@@ -518,14 +525,16 @@
       const priceDrop = g.prevPrice - g.price;
       const wishlistIcon = isWishlisted ? '❤️' : '🤍';
       
-      const thumbnailStyle = g.screenshotUrl 
-        ? `background-image: url('${g.screenshotUrl}');` 
-        : `background: ${g.pattern || 'linear-gradient(135deg, #1e293b, #334155)'}; display: flex; align-items: center; justify-content: center; font-size: 42px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);`;
+      const thumbnailStyle = g.imageUrl 
+        ? `background-image: url('${g.imageUrl}'); background-position: center; background-size: cover;` 
+        : (g.pattern 
+          ? `background: ${g.pattern}; display: flex; align-items: center; justify-content: center; font-size: 42px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);`
+          : `background: linear-gradient(135deg, #1e293b, #334155);`);
       
       return `
         <div class="game-card">
           <div class="game-thumbnail" style="${thumbnailStyle}">
-            ${!g.screenshotUrl ? `<div>${g.emoji || '🎮'}</div>` : ''}
+            ${!g.imageUrl && g.emoji ? `<div>${g.emoji}</div>` : ''}
             ${isHotDeal ? '<div class="hot-badge">🔥 HOT</div>' : ''}
             <button class="wishlist-btn" title="${isWishlisted ? '찜 해제' : '찜하기'}"
               onclick="toggleWishlist('${g.title}', event)">${wishlistIcon}</button>
