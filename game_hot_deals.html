@@ -1,0 +1,403 @@
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans); }
+  .container { padding: 1.5rem; max-width: 900px; margin: 0 auto; }
+  
+  .header { 
+    text-align: center; margin-bottom: 2rem;
+    padding: 1.5rem; background: var(--surface-1);
+    border-radius: 12px;
+  }
+  .header h1 { 
+    margin: 0 0 0.5rem; font-size: 28px; font-weight: 600;
+    color: var(--text-primary);
+  }
+  .header p { 
+    margin: 0; font-size: 15px; color: var(--text-secondary);
+  }
+  
+  .controls {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px; margin-bottom: 2rem;
+  }
+  .search-btn {
+    padding: 12px 20px; font-size: 15px; font-weight: 600;
+    background: var(--fill-accent); color: var(--on-accent);
+    border: none; border-radius: var(--radius);
+    cursor: pointer; transition: background 0.2s;
+  }
+  .search-btn:hover { background: var(--fill-accent-hover); }
+  .search-btn:active { transform: scale(0.98); }
+  
+  select {
+    padding: 10px 12px; font-size: 14px;
+    background: var(--surface-2); color: var(--text-primary);
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius); cursor: pointer;
+  }
+  
+  .status-msg {
+    font-size: 14px; color: var(--text-secondary);
+    text-align: center; margin-bottom: 1.5rem; min-height: 20px;
+  }
+  
+  .games-grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px; margin-bottom: 2rem;
+  }
+  
+  .game-card {
+    background: var(--surface-2); border: 0.5px solid var(--border);
+    border-radius: 12px; overflow: hidden; cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    position: relative;
+  }
+  .game-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-accent);
+  }
+  
+  .game-thumbnail {
+    width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, var(--surface-1), var(--surface-0));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 50px; position: relative; overflow: hidden;
+  }
+  
+  .hot-badge {
+    position: absolute; top: 8px; left: 8px;
+    background: var(--fill-danger); color: var(--on-danger);
+    padding: 6px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  .discount-badge {
+    position: absolute; bottom: 8px; right: 8px;
+    background: var(--fill-success); color: var(--on-success);
+    padding: 8px 12px; border-radius: var(--radius);
+    font-size: 13px; font-weight: 600;
+  }
+  
+  .game-content {
+    padding: 12px;
+  }
+  
+  .game-title {
+    margin: 0 0 6px; font-size: 14px; font-weight: 600;
+    color: var(--text-primary); line-height: 1.3;
+  }
+  
+  .game-genre {
+    font-size: 11px; color: var(--text-accent);
+    background: var(--bg-accent); padding: 2px 6px;
+    border-radius: 3px; display: inline-block; margin-bottom: 8px;
+  }
+  
+  .game-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6px; font-size: 12px; margin-bottom: 8px;
+  }
+  
+  .stat {
+    display: flex; align-items: center; gap: 3px;
+  }
+  .stat-label { color: var(--text-muted); }
+  .stat-value { color: var(--text-primary); font-weight: 600; }
+  
+  .price-section {
+    border-top: 0.5px solid var(--border);
+    padding-top: 8px; display: flex;
+    justify-content: space-between; align-items: center;
+  }
+  
+  .prices {
+    display: flex; align-items: baseline; gap: 6px;
+  }
+  
+  .price-now {
+    font-size: 16px; font-weight: 700;
+    color: var(--fill-success);
+  }
+  
+  .price-old {
+    font-size: 12px; color: var(--text-muted);
+    text-decoration: line-through;
+  }
+  
+  .buy-btn {
+    padding: 6px 12px; font-size: 12px; font-weight: 600;
+    background: var(--fill-accent); color: var(--on-accent);
+    border: none; border-radius: 6px; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .buy-btn:hover { background: var(--fill-accent-hover); }
+  
+  .pagination {
+    display: flex; justify-content: center; align-items: center;
+    gap: 12px; margin-top: 2rem; flex-wrap: wrap;
+  }
+  
+  .page-info {
+    font-size: 14px; font-weight: 600; color: var(--text-primary);
+  }
+  
+  .loadmore-btn {
+    padding: 10px 20px; font-size: 14px; font-weight: 600;
+    background: var(--surface-1); border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .loadmore-btn:hover:not(:disabled) {
+    border-color: var(--border-accent);
+    background: var(--fill-accent-hover);
+    color: var(--on-accent);
+  }
+  .loadmore-btn:disabled {
+    opacity: 0.5; cursor: not-allowed;
+  }
+  
+  .empty {
+    text-align: center; padding: 3rem 1rem;
+    color: var(--text-secondary);
+  }
+  
+  .empty-icon { font-size: 60px; margin-bottom: 1rem; }
+  
+  .filter-box {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--text-secondary);
+  }
+</style>
+
+<div class="container">
+  <div class="header">
+    <h1>🎮 게임 핫딜 찾기</h1>
+    <p>지금 바로 구매하면 돈을 절약할 수 있는 최고의 게임들!</p>
+  </div>
+  
+  <div class="controls">
+    <button class="search-btn" id="searchBtn">🔥 오늘의 핫딜 검색</button>
+    
+    <div class="filter-box">
+      <span>정렬:</span>
+      <select id="sortBy">
+        <option value="discount">할인율 높은순</option>
+        <option value="price-low">가격 낮은순</option>
+        <option value="price-high">가격 높은순</option>
+        <option value="rating">평가 높은순</option>
+        <option value="popularity">인기순</option>
+      </select>
+    </div>
+    
+    <div class="filter-box">
+      <span>장르:</span>
+      <select id="filterGenre">
+        <option value="">전체 게임</option>
+        <option value="action">액션</option>
+        <option value="rpg">RPG</option>
+        <option value="puzzle">퍼즐</option>
+        <option value="strategy">전략</option>
+        <option value="adventure">모험</option>
+        <option value="indie">인디</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="status-msg" id="statusMsg"></div>
+  
+  <div class="games-grid" id="gamesGrid"></div>
+  
+  <div class="pagination" id="pagination"></div>
+</div>
+
+<script>
+  const genres = {
+    action: { name: '액션', icon: '⚔️' },
+    rpg: { name: 'RPG', icon: '🗡️' },
+    puzzle: { name: '퍼즐', icon: '🧩' },
+    strategy: { name: '전략', icon: '♟️' },
+    adventure: { name: '모험', icon: '🧭' },
+    indie: { name: '인디', icon: '🎨' }
+  };
+
+  const gameScreenshots = {
+    action: ['⚔️💥', '🏃‍♂️💨', '🔫🎯', '⚡🔥', '🛡️⚔️'],
+    rpg: ['🗡️🐉', '👑💎', '🧙‍♂️✨', '🏰⚔️', '🗺️👹'],
+    puzzle: ['🧩🎯', '💡🔷', '🎲🔄', '🧠💭', '🔴🔵'],
+    strategy: ['♟️🎯', '🏰🛡️', '📊💼', '🤖⚙️', '🌍👑'],
+    adventure: ['🧭🗻', '🏝️⛱️', '🚀🌌', '🐾🌲', '⛰️🔦'],
+    indie: ['🎨🖌️', '🎭✨', '💫🌟', '🎪🎉', '🌈✨']
+  };
+
+  const allGames = [
+    { title: 'Stardew Valley', genre: 'adventure', original: 14.99, price: 7.49, discount: 50, rating: 4.9, reviews: 8543, popularity: 95, image: '🌾' },
+    { title: 'Hollow Knight', genre: 'action', original: 14.99, price: 7.49, discount: 50, rating: 4.8, reviews: 6521, popularity: 88, image: '⚔️' },
+    { title: 'Portal 2', genre: 'puzzle', original: 19.99, price: 4.99, discount: 75, rating: 4.9, reviews: 12000, popularity: 92, image: '🔫' },
+    { title: 'Factorio', genre: 'strategy', original: 29.99, price: 14.99, discount: 50, rating: 4.8, reviews: 5432, popularity: 85, image: '🏭' },
+    { title: 'Celeste', genre: 'action', original: 19.99, price: 5.99, discount: 70, rating: 4.9, reviews: 9876, popularity: 91, image: '⛰️' },
+    { title: 'The Witness', genre: 'puzzle', original: 39.99, price: 9.99, discount: 75, rating: 4.7, reviews: 4200, popularity: 78, image: '🔍' },
+    { title: 'Civilization VI', genre: 'strategy', original: 59.99, price: 14.99, discount: 75, rating: 4.6, reviews: 7654, popularity: 82, image: '👑' },
+    { title: 'Among Us', genre: 'indie', original: 4.99, price: 2.49, discount: 50, rating: 4.3, reviews: 2100, popularity: 75, image: '👽' },
+    { title: 'Journey', genre: 'adventure', original: 11.99, price: 5.99, discount: 50, rating: 4.9, reviews: 11234, popularity: 89, image: '🏜️' },
+    { title: 'Outer Wilds', genre: 'adventure', original: 24.99, price: 7.49, discount: 70, rating: 4.9, reviews: 8432, popularity: 90, image: '🚀' },
+    { title: 'Gris', genre: 'indie', original: 14.99, price: 4.49, discount: 70, rating: 4.8, reviews: 6234, popularity: 83, image: '🎨' },
+    { title: 'Tetris Effect', genre: 'puzzle', original: 29.99, price: 7.49, discount: 75, rating: 4.8, reviews: 3234, popularity: 76, image: '🟦' },
+    { title: 'Disco Elysium', genre: 'rpg', original: 39.99, price: 9.99, discount: 75, rating: 4.9, reviews: 10234, popularity: 91, image: '🕵️' },
+    { title: 'Spiritfarer', genre: 'adventure', original: 16.99, price: 5.09, discount: 70, rating: 4.8, reviews: 7234, popularity: 86, image: '⛵' },
+    { title: 'Return of the Obra Dinn', genre: 'puzzle', original: 19.99, price: 4.99, discount: 75, rating: 4.9, reviews: 8234, popularity: 89, image: '🚢' },
+    { title: 'Braid', genre: 'puzzle', original: 9.99, price: 2.49, discount: 75, rating: 4.7, reviews: 5234, popularity: 80, image: '🎮' },
+    { title: 'Unpacking', genre: 'indie', original: 19.99, price: 5.99, discount: 70, rating: 4.8, reviews: 6234, popularity: 82, image: '📦' },
+    { title: 'Firewatch', genre: 'adventure', original: 19.99, price: 4.99, discount: 75, rating: 4.6, reviews: 4234, popularity: 78, image: '🔥' },
+    { title: 'A Short Hike', genre: 'indie', original: 7.99, price: 2.39, discount: 70, rating: 4.9, reviews: 7234, popularity: 84, image: '🥾' },
+    { title: 'Night in the Woods', genre: 'adventure', original: 19.99, price: 4.99, discount: 75, rating: 4.7, reviews: 6234, popularity: 81, image: '🌙' },
+    { title: 'Abzu', genre: 'adventure', original: 14.99, price: 3.74, discount: 75, rating: 4.8, reviews: 5234, popularity: 79, image: '🌊' },
+    { title: 'Elden Ring', genre: 'action', original: 59.99, price: 29.99, discount: 50, rating: 4.8, reviews: 15000, popularity: 96, image: '🐉' },
+    { title: 'Baldur\'s Gate 3', genre: 'rpg', original: 59.99, price: 35.99, discount: 40, rating: 4.9, reviews: 18000, popularity: 98, image: '🧙' },
+    { title: 'Hades', genre: 'action', original: 24.99, price: 7.49, discount: 70, rating: 4.9, reviews: 14000, popularity: 94, image: '🔥' },
+    { title: 'Stardew Valley (Expanded)', genre: 'indie', original: 14.99, price: 4.49, discount: 70, rating: 4.8, reviews: 5000, popularity: 85, image: '🌾' },
+  };
+
+  // 게임 확장
+  for (let i = 0; i < 75; i++) {
+    const base = allGames[i % allGames.length];
+    const genreList = Object.keys(genres);
+    const randomGenre = genreList[Math.floor(Math.random() * genreList.length)];
+    allGames.push({
+      ...base,
+      title: `${base.title.split('(')[0].trim()} v${i + 2}`,
+      genre: randomGenre,
+      discount: Math.max(40, base.discount - Math.floor(Math.random() * 20)),
+      rating: Math.max(3.5, base.rating - Math.random() * 0.5),
+      reviews: base.reviews + Math.floor(Math.random() * 5000)
+    });
+  }
+
+  let currentPage = 0;
+  let displayedGames = [];
+  let isSearched = false;
+
+  function getRandomScreenshot(genre) {
+    const shots = gameScreenshots[genre] || gameScreenshots.indie;
+    return shots[Math.floor(Math.random() * shots.length)];
+  }
+
+  function renderGames() {
+    const grid = document.getElementById('gamesGrid');
+    const start = currentPage * 10;
+    const end = start + 10;
+    const games = displayedGames.slice(start, end);
+
+    if (games.length === 0) {
+      grid.innerHTML = '<div class="empty" style="grid-column: 1/-1;"><div class="empty-icon">🎮</div>게임을 검색해주세요!</div>';
+      return;
+    }
+
+    grid.innerHTML = games.map((g, idx) => {
+      const isHotDeal = g.discount >= 70;
+      return `
+        <div class="game-card">
+          <div class="game-thumbnail" style="cursor: pointer;" onclick="buyGame('${g.title}')">
+            ${g.image}
+            ${isHotDeal ? '<div class="hot-badge">🔥 HOT</div>' : ''}
+            <div class="discount-badge">${g.discount}%</div>
+          </div>
+          <div class="game-content">
+            <div class="game-genre">${genres[g.genre]?.name || g.genre}</div>
+            <div class="game-title">${g.title}</div>
+            
+            <div class="game-stats">
+              <div class="stat">
+                <span class="stat-label">⭐</span>
+                <span class="stat-value">${g.rating.toFixed(1)}</span>
+              </div>
+              <div class="stat">
+                <span class="stat-label">👥</span>
+                <span class="stat-value">${(g.reviews / 1000).toFixed(1)}k</span>
+              </div>
+            </div>
+            
+            <div class="price-section">
+              <div class="prices">
+                <div class="price-now">$${g.price.toFixed(2)}</div>
+                <div class="price-old">$${g.original.toFixed(2)}</div>
+              </div>
+              <button class="buy-btn" onclick="buyGame('${g.title}')">구매</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    updatePagination();
+  }
+
+  function updatePagination() {
+    const total = displayedGames.length;
+    const pages = Math.ceil(total / 10);
+    const pag = document.getElementById('pagination');
+
+    pag.innerHTML = `
+      <div class="page-info">페이지 ${currentPage + 1} / ${pages} (총 ${total}개)</div>
+      <button class="loadmore-btn" 
+        onclick="loadMore()"
+        ${currentPage >= pages - 1 ? 'disabled' : ''}>
+        ${currentPage >= pages - 1 ? '마지막 페이지입니다' : '더보기 (다음 10개)'}
+      </button>
+    `;
+  }
+
+  function loadMore() {
+    const total = displayedGames.length;
+    if ((currentPage + 1) * 10 < total) {
+      currentPage++;
+      renderGames();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function buyGame(title) {
+    alert(`🎮 "${title}" 구매 페이지로 이동합니다!\n\nSteam 스토어에서 지금 바로 구매할 수 있습니다.`);
+  }
+
+  function sortAndFilter() {
+    const sortBy = document.getElementById('sortBy').value;
+    const genre = document.getElementById('filterGenre').value;
+
+    let filtered = allGames.filter(g => !genre || g.genre === genre);
+
+    filtered.sort((a, b) => {
+      if (sortBy === 'discount') return b.discount - a.discount;
+      if (sortBy === 'price-low') return a.price - b.price;
+      if (sortBy === 'price-high') return b.price - a.price;
+      if (sortBy === 'rating') return b.rating - a.rating;
+      if (sortBy === 'popularity') return b.popularity - a.popularity;
+      return 0;
+    });
+
+    displayedGames = filtered;
+    currentPage = 0;
+    renderGames();
+  }
+
+  document.getElementById('searchBtn').addEventListener('click', function() {
+    const status = document.getElementById('statusMsg');
+    status.textContent = '🎮 오늘의 핫딜을 검색 중...';
+    
+    setTimeout(() => {
+      displayedGames = [...allGames].sort((a, b) => b.discount - a.discount);
+      currentPage = 0;
+      isSearched = true;
+      status.textContent = `✨ ${displayedGames.length}개의 게임 할인정보를 찾았어요!`;
+      renderGames();
+    }, 600);
+  });
+
+  document.getElementById('sortBy').addEventListener('change', sortAndFilter);
+  document.getElementById('filterGenre').addEventListener('change', sortAndFilter);
+</script>
